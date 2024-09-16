@@ -81,3 +81,6 @@ The Car Rental System is a web-based application developed as part of the Softwa
 * The system must allow administrators to register new vehicles by entering details like license plate, brand, model, year, and ownership status (customer, company, or bank).
 * Administrators should be able to update vehicle information as needed.
 * The system must ensure that rented vehicles are not available for future rental until the current contract expires.
+
+## Class Diagram 
+![image](https://github.com/user-attachments/assets/4b796fd8-02b0-435b-a047-ad3f7894e3be)
