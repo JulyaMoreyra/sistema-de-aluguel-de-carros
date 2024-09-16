@@ -46,7 +46,7 @@ The Car Rental System is a web-based application developed as part of the Softwa
 **So that** I can manage my car rental bookings according to my needs.
 #### Acceptance Criteria
 * The customer can create a new rental request by selecting a car and specifying the rental period.
-* The customer can modify or cancel an existing rental request before confirmation by the agent.
+* The customer can modify or cancel an existing rental request before the agent confirms it.
 * The customer can view the status of their current and past rental requests.
 * The system must store details such as car model, brand, year, and license plate for each request.
 
@@ -69,7 +69,7 @@ The Car Rental System is a web-based application developed as part of the Softwa
 #### Acceptance Criteria
 * The system should allow agents to view and assess the credit details related to rental requests.
 * Agents can approve or deny the credit portion of the rental contract.
-* the system should link the rental contract to the customer’s financial institution for further processing if approved.
+* If approved, the system should link the rental contract to the customer’s financial institution for further processing.
 
 ### Vehicle Management in Rental Contracts
 **As a** system administrator,
@@ -80,7 +80,12 @@ The Car Rental System is a web-based application developed as part of the Softwa
 #### Acceptance Criteria
 * The system must allow administrators to register new vehicles by entering details like license plate, brand, model, year, and ownership status (customer, company, or bank).
 * Administrators should be able to update vehicle information as needed.
-* The system must ensure that rented vehicles are not available for future rental until the current contract expires.
+* The system must ensure that rented vehicles are unavailable for future rental until the contract expires.
 
 ## Class Diagram 
 ![image](https://github.com/user-attachments/assets/4b796fd8-02b0-435b-a047-ad3f7894e3be)
+
+## Package Diagram
+![Package Diagram](https://github.com/user-attachments/assets/9e493846-0c77-49de-ad3f-f2112a3d8575)
+
+
