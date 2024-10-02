@@ -45,7 +45,6 @@ public class CarServiceImpl implements CarService {
 
     private void updateExistingCar(Car updatedCar, Car existingCar) {
         existingCar.setBrand(updatedCar.getBrand());
-        existingCar.setRentals(updatedCar.getRentals());
         existingCar.setRentalStatus(updatedCar.getRentalStatus());
         existingCar.setLicensePlate(updatedCar.getLicensePlate());
         existingCar.setYear(updatedCar.getYear());
