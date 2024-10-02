@@ -12,4 +12,5 @@ import java.util.List;
 public interface RentalRepository extends JpaRepository<Rental, Long> {
     List<Rental> findByCarAndStartDateLessThanEqualAndEndDateGreaterThanEqual(Car car, LocalDate endDate,
                                                                               LocalDate startDate);
+    List<Rental> findByCustomerId(Long customerId);
 }

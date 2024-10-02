@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/customers").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/rentals/**").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.GET, "/api/rentals/my-rentals").hasRole("CUSTOMER")
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());

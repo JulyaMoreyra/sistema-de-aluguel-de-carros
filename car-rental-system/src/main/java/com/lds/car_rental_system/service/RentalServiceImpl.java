@@ -99,4 +99,9 @@ public class RentalServiceImpl implements RentalService {
         existingRental.setStartDate(updatedRental.getStartDate());
         existingRental.setEndDate(updatedRental.getEndDate());
     }
+
+    @Override
+    public List<Rental> getRentalsByCustomerId(Long customerId) {
+        return rentalRepository.findByCustomerId(customerId);
+    }
 }

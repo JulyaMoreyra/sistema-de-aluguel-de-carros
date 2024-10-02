@@ -5,6 +5,7 @@ import com.lds.car_rental_system.service.RentalService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -45,5 +46,15 @@ public class RentalController {
     public ResponseEntity<Void> deleteRental(@PathVariable Long id) {
         rentalService.deleteRental(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/my-rentals")
+    public ResponseEntity<List<Rental>> getMyRentals(Authentication authentication) {
+        // Obter o ID do usuário logado a partir do objeto Authentication
+        // (Você pode precisar adaptar isso dependendo de como você está armazenando o ID do usuário no token)
+        Long userId = Long.parseLong(authentication.getName()); // Supondo que o ID do usuário esteja no "name" do token
+
+        List<Rental> rentals = rentalService.getRentalsByCustomerId(userId);
+        return ResponseEntity.ok(rentals);
     }
 }
