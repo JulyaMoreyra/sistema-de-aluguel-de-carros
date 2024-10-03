@@ -9,5 +9,5 @@ public interface RentalService {
     Rental createRental(Rental rental);
     Rental updateRental(Long id, Rental rental);
     void deleteRental(Long id);
-    List<Rental> getRentalsByCustomerId(Long customerId);
+    List<Rental> getRentalsByUsername(String username);
 }

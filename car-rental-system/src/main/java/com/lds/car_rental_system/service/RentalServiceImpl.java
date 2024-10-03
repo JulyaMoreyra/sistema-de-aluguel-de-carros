@@ -4,9 +4,11 @@ import com.lds.car_rental_system.enums.RentalStatus;
 import com.lds.car_rental_system.model.Car;
 import com.lds.car_rental_system.model.Customer;
 import com.lds.car_rental_system.model.Rental;
+import com.lds.car_rental_system.model.User;
 import com.lds.car_rental_system.repository.CarRepository;
 import com.lds.car_rental_system.repository.CustomerRepository;
 import com.lds.car_rental_system.repository.RentalRepository;
+import com.lds.car_rental_system.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +23,17 @@ public class RentalServiceImpl implements RentalService {
     private final RentalRepository rentalRepository;
     private final CustomerRepository customerRepository;
     private final CarRepository carRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public RentalServiceImpl(RentalRepository rentalRepository, CustomerRepository customerRepository, CarRepository carRepository) {
+    public RentalServiceImpl(RentalRepository rentalRepository,
+                             CustomerRepository customerRepository,
+                             CarRepository carRepository,
+                             UserRepository userRepository) {
         this.rentalRepository = rentalRepository;
         this.customerRepository = customerRepository;
         this.carRepository = carRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -101,7 +108,13 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public List<Rental> getRentalsByCustomerId(Long customerId) {
-        return rentalRepository.findByCustomerId(customerId);
+    public List<Rental> getRentalsByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Customer customer = customerRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        return rentalRepository.findByCustomerId(customer.getId());
     }
 }

@@ -50,11 +50,9 @@ public class RentalController {
 
     @GetMapping("/my-rentals")
     public ResponseEntity<List<Rental>> getMyRentals(Authentication authentication) {
-        // Obter o ID do usuário logado a partir do objeto Authentication
-        // (Você pode precisar adaptar isso dependendo de como você está armazenando o ID do usuário no token)
-        Long userId = Long.parseLong(authentication.getName()); // Supondo que o ID do usuário esteja no "name" do token
+        String username = authentication.getName();
 
-        List<Rental> rentals = rentalService.getRentalsByCustomerId(userId);
+        List<Rental> rentals = rentalService.getRentalsByUsername(username);
         return ResponseEntity.ok(rentals);
     }
 }
