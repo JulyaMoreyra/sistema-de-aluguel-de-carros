@@ -2,45 +2,42 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
+import "primereact/resources/themes/saga-blue/theme.css";
+import "primereact/resources/primereact.min.css";
 
 //router configuration
-import {
-  createBrowserRouter,
-  RouterProvider
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Home from "./assets/routes/Home.jsx";
-import Contact from "./assets/routes/Contact.jsx";
+import Contracts from "./assets/routes/Contracts.jsx";
 import ErrorPage from "./assets/routes/ErrorPage.jsx";
-import ContactDetails from "./assets/routes/ContactDetails.jsx";
+import AvailableCars from "./assets/routes/AvailableCars.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-		// error page
-		errorElement: <ErrorPage />,
+    // error page
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "/",
         element: <Home />,
       },
       {
-        path: "/contact",
-        element: <Contact />,
+        path: "/contracts",
+        element: <Contracts />,
       },
-			//nested routes - unique identifier
-			{
-				path: "/contact/:id",
-				element: <ContactDetails />,
-			}
-
+      {
+        path: "/available-cars",
+        element: <AvailableCars />,
+      },
     ],
   },
 ]);
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <RouterProvider router={router} />
   </StrictMode>
 );

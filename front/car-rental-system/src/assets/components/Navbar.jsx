@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
+import DenseAppBar from "./DenseAppBar";
 
 const Navbar = () => {
   return (
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/contact">Contatos</Link>
-    </nav>
+    <div>
+      <DenseAppBar />
+    </div>
   );
-}
+};
 
 export default Navbar;

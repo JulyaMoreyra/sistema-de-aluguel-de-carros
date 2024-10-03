@@ -10,9 +10,8 @@ function App() {
   return (
     <>
       <Navbar />
-      <h1>React router</h1>
+    
       <Outlet />
-      <h1>Footer</h1>
     </>
   );
 }
