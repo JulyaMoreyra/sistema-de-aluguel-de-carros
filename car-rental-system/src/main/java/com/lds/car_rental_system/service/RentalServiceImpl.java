@@ -1,5 +1,6 @@
 package com.lds.car_rental_system.service;
 
+import com.lds.car_rental_system.dto.RentalRequest;
 import com.lds.car_rental_system.enums.RentalStatus;
 import com.lds.car_rental_system.model.Car;
 import com.lds.car_rental_system.model.Customer;
@@ -9,7 +10,9 @@ import com.lds.car_rental_system.repository.CarRepository;
 import com.lds.car_rental_system.repository.CustomerRepository;
 import com.lds.car_rental_system.repository.RentalRepository;
 import com.lds.car_rental_system.repository.UserRepository;
+import com.lds.car_rental_system.util.RentalConstants;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,14 +52,22 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     @Transactional
-    public Rental createRental(Rental rental) {
-        validateRental(rental);
+    public Rental createRentalRequest(RentalRequest rentalRequest) {
+        validateRentalRequest(rentalRequest);
 
-        Customer customer = customerRepository.findById(rental.getCustomer().getId())
+        Rental rental = new Rental();
+        Car car = carRepository.findById(rentalRequest.carId())
+                .orElseThrow(() -> new RuntimeException("Car not found"));
+
+        Long userId = getUserIdBySecurityContext();
+
+        Customer customer = customerRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
 
-        Car car = carRepository.findById(rental.getCar().getVehicleId())
-                .orElseThrow(() -> new RuntimeException("Car not found"));
+        rental.setCar(car);
+        rental.setCustomer(customer);
+        rental.setStartDate(rentalRequest.startDate());
+        rental.setEndDate(rentalRequest.endDate());
 
         if (!isCarAvailable(car, rental.getStartDate(), rental.getEndDate())) {
             throw new RuntimeException("Car is not available for the selected dates.");
@@ -83,8 +94,19 @@ public class RentalServiceImpl implements RentalService {
         rentalRepository.deleteById(id);
     }
 
-    private void validateRental(Rental rental) {
-        if (rental.getStartDate().isAfter(rental.getEndDate())) {
+    @Override
+    public List<Rental> getRentalsByUsername(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        Customer customer = customerRepository.findByUserId(user.getId())
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        return rentalRepository.findByCustomerId(customer.getId());
+    }
+
+    private void validateRentalRequest(RentalRequest rentalRequest) {
+        if (rentalRequest.startDate().isAfter(rentalRequest.endDate())) {
             throw new RuntimeException("Start date cannot be after end date.");
         }
     }
@@ -97,7 +119,8 @@ public class RentalServiceImpl implements RentalService {
 
     private void calculateRentalValues(Rental rental, Car car) {
         long days = ChronoUnit.DAYS.between(rental.getStartDate(), rental.getEndDate()) + 1;
-        double carPricePerDay = 100.0;
+        Double carPricePerDay = RentalConstants.getCarDailyPrice(car.getYear());
+
         rental.setDailyValue(carPricePerDay);
         rental.setContractValue(carPricePerDay * days);
     }
@@ -107,14 +130,10 @@ public class RentalServiceImpl implements RentalService {
         existingRental.setEndDate(updatedRental.getEndDate());
     }
 
-    @Override
-    public List<Rental> getRentalsByUsername(String username) {
-        User user = userRepository.findByUsername(username)
+    private Long getUserIdBySecurityContext() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        return userRepository.findUserIdByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
-        Customer customer = customerRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
-
-        return rentalRepository.findByCustomerId(customer.getId());
     }
 }

@@ -1,5 +1,6 @@
 package com.lds.car_rental_system.controller;
 
+import com.lds.car_rental_system.dto.RentalRequest;
 import com.lds.car_rental_system.model.Rental;
 import com.lds.car_rental_system.service.RentalService;
 import jakarta.validation.Valid;
@@ -31,8 +32,11 @@ public class RentalController {
     }
 
     @PostMapping
-    public ResponseEntity<Rental> createRental(@Valid @RequestBody Rental rental) {
-        Rental createdRental = rentalService.createRental(rental);
+    public ResponseEntity<Rental> createRentalRequest(@Valid @RequestBody RentalRequest rentalRequest, Authentication authentication) {
+        String username = authentication.getName();
+
+        // Criar a solicitação de aluguel
+        Rental createdRental = rentalService.createRentalRequest(rentalRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRental);
     }
 
