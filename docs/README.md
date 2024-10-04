@@ -1,4 +1,6 @@
-# Car Rental System
+# Radiator Springs Car Rentals
+![logo2](https://github.com/user-attachments/assets/4f5809d8-9129-4f4e-9cbf-138c3a4d6578)
+
 The Car Rental System is a web-based application developed as part of the Software Engineering course at PUC Minas. The system is designed to facilitate the management of car rental services, allowing users to create, modify, and cancel rental requests, while agents (companies or banks) can review and approve or reject these requests. The system also handles the registration and management of available vehicles and rental contracts, including credit evaluations.
 
 ## Group Members
