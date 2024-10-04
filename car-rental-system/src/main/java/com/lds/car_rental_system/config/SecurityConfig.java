@@ -53,6 +53,7 @@ public class SecurityConfig {
                         .requestMatchers("/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/rentals/my-rentals").hasRole("CUSTOMER")
                         .requestMatchers(HttpMethod.POST, "/api/rentals").hasRole("CUSTOMER")
+                        .requestMatchers("/test").permitAll()
                         .anyRequest().authenticated()
                 )
                 .httpBasic(withDefaults());
