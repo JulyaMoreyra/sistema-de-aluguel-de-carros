@@ -88,7 +88,7 @@ The Car Rental System is a web-based application developed as part of the Softwa
 ![image](https://github.com/user-attachments/assets/4b796fd8-02b0-435b-a047-ad3f7894e3be)
 
 ## Package Diagram
-![Package Diagram](https://github.com/user-attachments/assets/9e493846-0c77-49de-ad3f-f2112a3d8575)
+![Package Diagram](package-diagram.png)
 
 ## User Case Diagram
 ![Diagrama de caso de uso drawio](https://github.com/user-attachments/assets/1551e9ed-7980-47a9-9712-004d33d46fad)
