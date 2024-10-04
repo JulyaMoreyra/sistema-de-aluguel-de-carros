@@ -3,23 +3,28 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
+import { Navigate } from 'react-router-dom';
 import "primeicons/primeicons.css";
+import apiService from '../../services/apiService.js';
 
 export default function LoginDemo() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userType, setUserType] = useState(null);
-  const [formData, setFormData] = useState({
+  const [loginError, setLoginError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [registerFormData, setRegisterFormData] = useState({
+    username: "",
+    password: "",
     name: "",
     email: "",
-    userType: null,
-    rg: "",
     cpf: "",
+    rg: "",
     profession: "",
   });
 
   const userTypes = [
-    { label: "Agente", value: "agente" },
-    { label: "Cliente", value: "cliente" },
+    { label: 'Customer', value: 'cliente' },
+    { label: 'Agent', value: 'agent' },
   ];
 
   const openSignUpModal = () => {
@@ -30,25 +35,55 @@ export default function LoginDemo() {
     setIsModalVisible(false);
   };
 
-  const handleSignUp = () => {
-    console.log("Cadastro realizado:", formData);
-    // Aqui você pode adicionar a lógica para salvar os dados do cadastro
-    closeSignUpModal();
+  const handleSignUp = async () => {
+    try {
+      const response = await apiService.post('/auth/register', registerFormData);
+      console.log("Cadastro realizado:", response.data);
+      closeSignUpModal();
+    } catch (error) {
+      console.error("Erro ao cadastrar:", error);
+    }
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await apiService.post('/auth/login', {
+        username: registerFormData.username,
+        password: registerFormData.password,
+      });
+      localStorage.setItem('token', response.data.token);
+      
+      setIsLoggedIn(true);
+
+      console.log("Login realizado:", response.data);
+    } catch (error) {
+      console.error("Erro ao logar:", error);
+      setLoginError("Invalid username or password."); // Define a mensagem de erro
+    }
   };
 
   const handleChange = (e) => {
     const { id, value } = e.target;
-    setFormData((prevData) => ({
+    setRegisterFormData((prevData) => ({
       ...prevData,
       [id]: value,
     }));
   };
+
+  if (isLoggedIn) {
+    return <Navigate to="/" />
+  }
 
   return (
     <div className="card">
       <div className="flex flex-column md:flex-row">
         {/* Coluna de Login */}
         <div className="w-full md:w-5 flex flex-column align-items-center justify-content-center gap-3 py-5">
+          {loginError && ( // Exibe a mensagem de erro se houver
+            <div className="error" style={{ color: "red", marginBottom: "10px" }}>
+              {loginError}
+            </div>
+          )}
           <div className="flex flex-wrap justify-content-center align-items-center gap-2">
             <label
               htmlFor="username"
@@ -62,6 +97,8 @@ export default function LoginDemo() {
               type="text"
               className="w-12rem"
               style={{ margin: "30px" }}
+              value={registerFormData.username} // Define o valor do input
+              onChange={handleChange} // Define o evento onChange
             />
           </div>
           <div className="flex flex-wrap justify-content-center align-items-center gap-2">
@@ -77,6 +114,8 @@ export default function LoginDemo() {
               type="password"
               className="w-12rem"
               style={{ margin: "30px" }}
+              value={registerFormData.password} // Define o valor do input
+              onChange={handleChange} // Define o evento onChange
             />
           </div>
           <div className="flex justify-content-center gap-3">
@@ -85,6 +124,7 @@ export default function LoginDemo() {
               icon="pi pi-user"
               className="w-10rem mx-auto"
               style={{ margin: "20px" }}
+              onClick={handleLogin} // Chama a função handleLogin ao clicar
             />
             <Button
               label="Sign Up"
@@ -106,12 +146,35 @@ export default function LoginDemo() {
       >
         <div className="p-fluid">
           <div className="field">
+            <label htmlFor="username" style={{ margin: "10px" }}>
+              Username
+            </label>
+            <InputText
+              id="username"
+              value={registerFormData.username}
+              style={{ margin: "10px" }}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="password" style={{ margin: "10px" }}>
+              Password
+            </label>
+            <InputText
+              id="password"
+              type="password"
+              value={registerFormData.password}
+              style={{ margin: "10px" }}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="field">
             <label htmlFor="name" style={{ margin: "10px" }}>
               Name
             </label>
             <InputText
               id="name"
-              value={formData.name}
+              value={registerFormData.name}
               style={{ margin: "10px" }}
               onChange={handleChange}
             />
@@ -122,7 +185,7 @@ export default function LoginDemo() {
             </label>
             <InputText
               id="email"
-              value={formData.email}
+              value={registerFormData.email}
               style={{ margin: "10px" }}
               onChange={handleChange}
             />
@@ -133,16 +196,10 @@ export default function LoginDemo() {
             </label>
             <Dropdown
               id="userType"
-              value={formData.userType}
-              options={userTypes}
+              value={userType} // Usa o estado userType
+              options={userTypes} // Usa a constante userTypes
               style={{ margin: "10px", width: "100%" }}
-              onChange={(e) => {
-                setFormData((prevData) => ({
-                  ...prevData,
-                  userType: e.value,
-                }));
-                setUserType(e.value);
-              }}
+              onChange={(e) => setUserType(e.value)} // Define o estado userType
               placeholder="Select User Type"
             />
           </div>
@@ -156,7 +213,7 @@ export default function LoginDemo() {
                 </label>
                 <InputText
                   id="rg"
-                  value={formData.rg}
+                  value={registerFormData.rg}
                   style={{ margin: "10px" }}
                   onChange={handleChange}
                 />
@@ -167,7 +224,7 @@ export default function LoginDemo() {
                 </label>
                 <InputText
                   id="cpf"
-                  value={formData.cpf}
+                  value={registerFormData.cpf}
                   style={{ margin: "10px" }}
                   onChange={handleChange}
                 />
@@ -178,7 +235,7 @@ export default function LoginDemo() {
                 </label>
                 <InputText
                   id="profession"
-                  value={formData.profession}
+                  value={registerFormData.profession}
                   style={{ margin: "10px" }}
                   onChange={handleChange}
                 />

@@ -38,6 +38,8 @@ public class RegistrationServiceImpl implements RegistrationService {
                 .roles(List.of("CUSTOMER"))
                 .build();
 
+        User savedUser = userRepository.save(newUser);
+
         Customer newCustomer = Customer.builder()
                 .name(registrationRequest.name())
                 .cpf(registrationRequest.cpf())
@@ -49,6 +51,6 @@ public class RegistrationServiceImpl implements RegistrationService {
 
         customerRepository.save(newCustomer);
 
-        return userRepository.save(newUser);
+        return savedUser;
     }
 }
