@@ -3,13 +3,15 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
+import { Navigate } from 'react-router-dom';
 import "primeicons/primeicons.css";
 import apiService from '../../services/apiService.js';
 
 export default function LoginDemo() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [userType, setUserType] = useState(null);
-  const [loginError, setLoginError] = useState(null); // Estado para erro de login
+  const [loginError, setLoginError] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [registerFormData, setRegisterFormData] = useState({
     username: "",
     password: "",
@@ -35,14 +37,11 @@ export default function LoginDemo() {
 
   const handleSignUp = async () => {
     try {
-      // Enviar a requisição de cadastro para a API
       const response = await apiService.post('/auth/register', registerFormData);
       console.log("Cadastro realizado:", response.data);
       closeSignUpModal();
     } catch (error) {
       console.error("Erro ao cadastrar:", error);
-      // Exibir mensagem de erro para o usuário
-      // ...
     }
   };
 
@@ -53,7 +52,9 @@ export default function LoginDemo() {
         password: registerFormData.password,
       });
       localStorage.setItem('token', response.data.token);
-      // Redirecionar para a página principal ou fazer outra ação após o login
+      
+      setIsLoggedIn(true);
+
       console.log("Login realizado:", response.data);
     } catch (error) {
       console.error("Erro ao logar:", error);
@@ -68,6 +69,10 @@ export default function LoginDemo() {
       [id]: value,
     }));
   };
+
+  if (isLoggedIn) {
+    return <Navigate to="/" />
+  }
 
   return (
     <div className="card">

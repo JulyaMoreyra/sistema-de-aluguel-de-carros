@@ -4,42 +4,30 @@ import { Column } from "primereact/column";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { useState, useEffect } from "react";
+import apiService from "../../services/apiService";
+import { Calendar } from "primereact/calendar";
 
 const AvailableCarsClient = () => {
-  const cars = [
-    {
-      licenseplate: "a1653d4d",
-      model: "Golf",
-      year: 1998,
-      dailyPrice: 50,
-    },
-    {
-      licenseplate: "b2343d5e",
-      model: "Corolla",
-      year: 2005,
-      dailyPrice: 65,
-    },
-    {
-      licenseplate: "c2343d6f",
-      model: "Civic",
-      year: 2015,
-      dailyPrice: 80,
-    },
-    {
-      licenseplate: "d3454d7g",
-      model: "Fiesta",
-      year: 2010,
-      dailyPrice: 55,
-    },
-  ];
-
-  const [products, setProducts] = useState([]);
-  const [selectedCar, setSelectedCar] = useState(null); 
-  const [showModal, setShowModal] = useState(false); 
+  const [cars, setCars] = useState([]);
+  const [selectedCar, setSelectedCar] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [rentalRequest, setRentalRequest] = useState({
+    startDate: null,
+    endDate: null,
+  });
 
   useEffect(() => {
-    setProducts(cars);
+    fetchCars();
   }, []);
+
+  const fetchCars = async () => {
+    try {
+      const response = await apiService.get("/cars");
+      setCars(response.data);
+    } catch (error) {
+      console.error("Error fetching cars:", error);
+    }
+  };
 
   const rentCar = (car) => {
     setSelectedCar(car);
@@ -49,6 +37,23 @@ const AvailableCarsClient = () => {
   const hideModal = () => {
     setShowModal(false);
     setSelectedCar(null);
+    setRentalRequest({ startDate: null, endDate: null });
+  };
+
+  const handleRentConfirmation = async () => {
+    try {
+      const response = await apiService.post("/rentals", {
+        carId: selectedCar.vehicleId,
+        startDate: rentalRequest.startDate,
+        endDate: rentalRequest.endDate,
+      });
+      console.log("Rental request created:", response.data);
+      hideModal();
+      
+    } catch (error) {
+      console.error("Error creating rental request:", error);
+      
+    }
   };
 
   const rentCarTemplate = (rowData) => {
@@ -74,14 +79,11 @@ const AvailableCarsClient = () => {
       >
         Available Cars
       </h1>
-      <DataTable
-        value={products}
-        tableStyle={{ minWidth: "50rem", margin: "40px" }}
-      >
-        <Column field="licenseplate" header="License Plate"></Column>
+      <DataTable value={cars} tableStyle={{ minWidth: "50rem", margin: "40px" }}>
+        <Column field="licensePlate" header="License Plate"></Column>
         <Column field="model" header="Model"></Column>
         <Column field="year" header="Year"></Column>
-        <Column field="dailyPrice" header="Daily Price ($)"></Column>
+        <Column field="dailyValue" header="Daily Price ($)"></Column> {/* Use dailyValue */}
         <Column header="Rent Car" body={rentCarTemplate}></Column>
       </DataTable>
 
@@ -108,7 +110,7 @@ const AvailableCarsClient = () => {
                 icon="pi pi-check"
                 severity="success"
                 outlined
-                onClick={hideModal}
+                onClick={handleRentConfirmation} // Chama a função de confirmação
                 autoFocus
               />
             </div>
@@ -121,11 +123,36 @@ const AvailableCarsClient = () => {
             <strong>Year:</strong> {selectedCar.year}
           </p>
           <p>
-            <strong>License Plate:</strong> {selectedCar.licenseplate}
+            <strong>License Plate:</strong> {selectedCar.licensePlate}
           </p>
           <p>
-            <strong>Daily Price:</strong> ${selectedCar.dailyPrice}
+            <strong>Daily Price:</strong> ${selectedCar.dailyValue}
           </p>
+          
+          <div className="field">
+            <label htmlFor="startDate">Start Date:</label>
+            <Calendar
+              id="startDate"
+              value={rentalRequest.startDate}
+              onChange={(e) =>
+                setRentalRequest({ ...rentalRequest, startDate: e.value })
+              }
+              dateFormat="yy-mm-dd"
+              showIcon
+            />
+          </div>
+          <div className="field">
+            <label htmlFor="endDate">End Date:</label>
+            <Calendar
+              id="endDate"
+              value={rentalRequest.endDate}
+              onChange={(e) =>
+                setRentalRequest({ ...rentalRequest, endDate: e.value })
+              }
+              dateFormat="yy-mm-dd"
+              showIcon
+            />
+          </div>
           <p>Are you sure you want to rent this car?</p>
         </Dialog>
       )}
