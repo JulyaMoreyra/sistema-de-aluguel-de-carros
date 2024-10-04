@@ -1,43 +1,117 @@
 import React, { useState } from "react";
 import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
+import { InputText } from "primereact/inputtext";
 
-export default function RegisterVehicle() {
-  const [visible, setVisible] = useState(false);
+export default function RegisterVehicle({
+  visible,
+  onHide,
+  selectedCar,
+  onSave,
+}) {
+  const [vehicleData, setVehicleData] = useState(
+    selectedCar || {
+      licenseplate: "",
+      model: "",
+      year: "",
+      brand: "",
+    }
+  );
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setVehicleData((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+
+  const saveVehicle = () => {
+    onSave(vehicleData); // Chama a função de salvamento com os dados do veículo
+    onHide(); // Fecha o modal após salvar
+  };
 
   return (
-    <div className="card flex justify-content-center">
-      <Button
-        variant="contained"
-        size="large"
-        onClick={() => setVisible(true)}
+    <Dialog
+      header={selectedCar ? "Edit Vehicle" : "Register New Vehicle"}
+      visible={visible}
+      style={{ width: "50vw" }}
+      onHide={onHide}
+    >
+      <div style={{ padding: "20px" }}>
+        <h3>License Plate</h3>
+        <div className="field" style={{ marginBottom: "15px" }}>
+          <InputText
+            id="licenseplate"
+            keyfilter="text"
+            placeholder="AAA-1234 or 1234-AAA"
+            style={{ width: "100%" }}
+            value={vehicleData.licenseplate}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <h3>Model</h3>
+        <div className="field" style={{ marginBottom: "15px" }}>
+          <InputText
+            id="model"
+            keyfilter="text"
+            placeholder="Car model"
+            style={{ width: "100%" }}
+            value={vehicleData.model}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <h3>Year</h3>
+        <div className="field" style={{ marginBottom: "15px" }}>
+          <InputText
+            id="year"
+            keyfilter="pint"
+            placeholder="Car year"
+            style={{ width: "100%" }}
+            value={vehicleData.year}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <h3>Brand</h3>
+        <div className="field" style={{ marginBottom: "15px" }}>
+          <InputText
+            id="brand"
+            keyfilter="text"
+            placeholder="Car brand"
+            style={{ width: "100%" }}
+            value={vehicleData.brand}
+            onChange={handleInputChange}
+          />
+        </div>
+      </div>
+
+      <div
         style={{
-          marginRight: "80px",
-          backgroundColor: "#115293",
-          color: "white",
+          display: "flex",
+          gap: "10px",
+          justifyContent: "right",
+          paddingRight: "20px",
+          paddingBottom: "10px",
         }}
       >
-        Register Vehicle
-      </Button>
-      <Dialog
-        header="Header"
-        visible={visible}
-        style={{ width: "50vw" }}
-        onHide={() => {
-          if (!visible) return;
-          setVisible(false);
-        }}
-      >
-        <p className="m-0">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </p>
-      </Dialog>
-    </div>
+        <Button
+          label="Cancel"
+          severity="danger"
+          text
+          raised
+          onClick={onHide} // Fecha o modal sem salvar
+        />
+        <Button
+          label="Save"
+          severity="success"
+          text
+          raised
+          onClick={saveVehicle} // Salva o veículo (adicionar/editar)
+        />
+      </div>
+    </Dialog>
   );
 }
