@@ -27,37 +27,35 @@ const AvailableCarsTable = () => {
     },
   ]);
 
-  const [selectedCar, setSelectedCar] = useState(null); // Estado para armazenar o carro selecionado
-  const [visible, setVisible] = useState(false); // Estado para controlar a visibilidade do modal
-  const [deleteVisible, setDeleteVisible] = useState(false); // Estado para o modal de deletar
+  const [selectedCar, setSelectedCar] = useState(null); 
+  const [visible, setVisible] = useState(false); 
+  const [deleteVisible, setDeleteVisible] = useState(false);
 
   const openDialog = (car = null) => {
-    setSelectedCar(car); // Define o carro para editar ou null para adicionar novo
-    setVisible(true); // Abre o modal de registro
+    setSelectedCar(car); 
+    setVisible(true); 
   };
 
   const openDeleteDialog = (car) => {
-    setSelectedCar(car); // Define o carro selecionado para deletar
-    setDeleteVisible(true); // Abre o modal de confirmação de deletar
+    setSelectedCar(car); 
+    setDeleteVisible(true);
   };
 
   const confirmDelete = () => {
     setCars(
       cars.filter((car) => car.licenseplate !== selectedCar.licenseplate)
     );
-    setDeleteVisible(false); // Fecha o modal de confirmação
+    setDeleteVisible(false); 
   };
 
   const saveVehicle = (vehicle) => {
     if (selectedCar) {
-      // Atualiza veículo existente
       setCars((prevCars) =>
         prevCars.map((car) =>
           car.licenseplate === vehicle.licenseplate ? vehicle : car
         )
       );
     } else {
-      // Adiciona novo veículo
       setCars([...cars, vehicle]);
     }
   };
@@ -70,7 +68,7 @@ const AvailableCarsTable = () => {
           severity="success"
           text
           raised
-          onClick={() => openDialog(rowData)} // Abre o modal de edição
+          onClick={() => openDialog(rowData)} 
         />
         <Button
           label="Delete"

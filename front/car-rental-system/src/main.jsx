@@ -12,6 +12,9 @@ import Home from "./assets/routes/Home.jsx";
 import Contracts from "./assets/routes/Contracts.jsx";
 import ErrorPage from "./assets/routes/ErrorPage.jsx";
 import AvailableCars from "./assets/routes/AvailableCars.jsx";
+import Login from "./assets/routes/Login.jsx";
+import AvailableCarsClient from "./assets/routes/AvailableCarsClient.jsx";
+import ContractsClient from "./assets/routes/ContractsClient.jsx";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +34,18 @@ const router = createBrowserRouter([
       {
         path: "/available-cars",
         element: <AvailableCars />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/available-cars-client",
+        element: <AvailableCarsClient />,
+      },
+      {
+        path: "/contracts-client",
+        element: <ContractsClient />,
       },
     ],
   },
