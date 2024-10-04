@@ -3,6 +3,8 @@ import { Card } from "primereact/card";
 import DirectionsCarFilledRoundedIcon from "@mui/icons-material/DirectionsCarFilledRounded";
 import DescriptionRoundedIcon from "@mui/icons-material/DescriptionRounded";
 import { useNavigate } from "react-router-dom";
+import mate from "./mate.png";
+import relampago from "./relampago.png";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -17,32 +19,34 @@ const Home = () => {
 
   return (
     <>
-      <h1 style={{ color: "black" }}>Welcome to the car rental system!</h1>
+      <h1 style={{ color: "black" }}>
+        Welcome to Radiator Springs Car Rentals!
+      </h1>
+      <h2 style={{ color: "black" }}>
+        Experience a Quick and Efficient Rental Process
+      </h2>
       <h3 style={{ color: "black" }}>
-        Our system simplifies the car rental process, making it quick and
-        efficient for you to find and reserve the perfect vehicle for your
-        needs.
+        Finding and reserving the perfect vehicle has never been easier. Join us
+        and relive the excitement of "Cars" with every rental!
       </h3>
       <div style={styles.cardContainer}>
         <Card
           style={{ ...styles.card, borderRadius: "10px" }}
           onClick={handleAvailableCarsClick}
         >
-          <h2>
-            <DirectionsCarFilledRoundedIcon
-              style={{ ...styles.icon, fontSize: 150 }}
-            />
-          </h2>
-          <h2>Available Cars</h2>
+          <img src={mate} alt="mate" style={{ width: "80%", margin: "10px" }} />
+          <h2 style={{ color: "#604337" }}>Available Cars</h2>
         </Card>
         <Card
-          style={{ ...styles.card, borderRadius: "10px" , }}
+          style={{ ...styles.card, borderRadius: "10px" }}
           onClick={handleContractsClick}
         >
-          <h2>
-            <DescriptionRoundedIcon style={{ ...styles.icon, fontSize: 150 }} />
-          </h2>
-          <h2>Contracts</h2>
+          <img
+            src={relampago}
+            alt="mate"
+            style={{ width: "80%", margin: "10px" }}
+          />
+          <h2 style={{ color: "#ee5b5d" }}>Contracts</h2>
         </Card>
       </div>
     </>

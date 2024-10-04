@@ -8,8 +8,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
 import { Link } from "react-router-dom";
+import logo2 from "./logo2.png";
 
 export default function DenseAppBar() {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -60,7 +60,7 @@ export default function DenseAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: "#cb2220" }}>
         <Toolbar variant="dense">
           <IconButton
             edge="start"
@@ -71,9 +71,11 @@ export default function DenseAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" component="div">
-            Car Management System
-          </Typography>
+          <img
+            src={logo2}
+            alt="Logo"
+            style={{ width: "10%", margin: "10px" }}
+          />
         </Toolbar>
       </AppBar>
 
