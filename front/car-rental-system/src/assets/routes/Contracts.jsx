@@ -5,6 +5,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import BasicTab from "../components/BasicTabs";
+import sally from "./sally.png";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,16 +45,26 @@ const Contracts = () => {
 
   return (
     <>
-      <h1
+      {/* Alinhar o h1 e a imagem lado a lado no final da linha */}
+      <div
         style={{
-          color: "black",
-          margin: 0,
-          marginTop: "40px",
+          display: "flex",
+          justifyContent: "space-between", // Coloca h1 e a imagem nos extremos
+          alignItems: "center", // Alinha verticalmente no centro
           paddingLeft: "80px",
+          paddingRight: "80px", // Adicionei padding para espaçamento à direita
         }}
       >
-        Contracts
-      </h1>
+        <img
+          src={sally}
+          alt="sally"
+          style={{
+            width: "20%",
+            marginLeft: "10px", // Espaçamento entre a borda esquerda e a imagem
+          }}
+        />
+        <h1 style={{ color: "black", marginLeft: "80px" }}>Contracts</h1>
+      </div>
       <BasicTab />
     </>
   );

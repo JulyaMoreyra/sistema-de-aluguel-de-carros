@@ -10,78 +10,111 @@ import { Column } from "primereact/column";
 const pendingContracts = [
   {
     id: 1,
-    clientName: "John Doe",
+    clientName: "Relâmpago McQueen",
     cpf: "123.456.789-00",
-    licensePlate: "ABC-1234",
-    model: "Golf",
-    dailyValue: 100,
-    contractValue: 1000,
-    startDate: "2021-10-01",
-    endDate: "2021-10-10",
+    licensePlate: "0WC-001",
+    model: "McQueen Special",
+    dailyValue: 300,
+    contractValue: 3000,
+    startDate: "2023-07-01",
+    endDate: "2023-07-10",
   },
   {
     id: 2,
-    clientName: "Jane Doe",
+    clientName: "Mate",
     cpf: "987.654.321-00",
-    licensePlate: "DEF-5678",
-    model: "Corolla",
+    licensePlate: "0WC-002",
+    model: "Caminhão Guincho",
     dailyValue: 150,
     contractValue: 1500,
-    startDate: "2021-10-05",
-    endDate: "2021-10-15",
-  }
+    startDate: "2023-07-05",
+    endDate: "2023-07-15",
+  },
+  {
+    id: 3,
+    clientName: "Doc Hudson",
+    cpf: "654.321.987-00",
+    licensePlate: "0WC-003",
+    model: "Hudson Hornet",
+    dailyValue: 200,
+    contractValue: 2000,
+    startDate: "2023-07-08",
+    endDate: "2023-07-18",
+  },
 ];
 
 // Contratos aceitos
 const acceptedContracts = [
   {
-    id: 3,
-    clientName: "Mike Ross",
-    cpf: "123.123.123-11",
-    licensePlate: "GHI-9101",
-    model: "Civic",
-    dailyValue: 120,
-    contractValue: 1200,
-    startDate: "2021-10-11",
-    endDate: "2021-10-20",
+    id: 4,
+    clientName: "Sally Carrera",
+    cpf: "321.654.987-11",
+    licensePlate: "0WC-004",
+    model: "Porsche 911",
+    dailyValue: 350,
+    contractValue: 3500,
+    startDate: "2023-07-11",
+    endDate: "2023-07-21",
   },
   {
     id: 5,
-    clientName: "Harvey Specter",
-    cpf: "456.456.456-22",
-    licensePlate: "MNO-1112",
-    model: "Fusion",
+    clientName: "Luigi",
+    cpf: "789.123.456-22",
+    licensePlate: "0WC-005",
+    model: "Fiat 500",
     dailyValue: 180,
     contractValue: 1800,
-    startDate: "2021-10-21",
-    endDate: "2021-10-31",
-  }
+    startDate: "2023-07-15",
+    endDate: "2023-07-25",
+  },
+  {
+    id: 6,
+    clientName: "Guido",
+    cpf: "456.789.123-33",
+    licensePlate: "0WC-006",
+    model: "Empilhadeira",
+    dailyValue: 120,
+    contractValue: 1200,
+    startDate: "2023-07-18",
+    endDate: "2023-07-28",
+  },
 ];
 
 // Contratos rejeitados
 const rejectedContracts = [
   {
-    id: 4,
-    clientName: "Rachel Zane",
-    cpf: "987.987.987-99",
-    licensePlate: "JKL-1234",
-    model: "Mustang",
-    dailyValue: 200,
-    contractValue: 2000,
-    startDate: "2021-09-01",
-    endDate: "2021-09-05",
+    id: 7,
+    clientName: "Chick Hicks",
+    cpf: "147.258.369-44",
+    licensePlate: "0WC-007",
+    model: "Hicks Special",
+    dailyValue: 250,
+    contractValue: 2500,
+    startDate: "2023-06-20",
+    endDate: "2023-06-30",
   },
   {
-    id: 6,
-    clientName: "Donna Paulsen",
-    cpf: "654.654.654-33",
-    licensePlate: "PQR-5678",
-    model: "Fusca",
-    dailyValue: 80,
-    contractValue: 800,
-    startDate: "2021-09-10",
-    endDate: "2021-09-20",
-  }
+    id: 8,
+    clientName: "Ramone",
+    cpf: "369.258.147-55",
+    licensePlate: "0WC-008",
+    model: "Chevrolet Impala",
+    dailyValue: 220,
+    contractValue: 2200,
+    startDate: "2023-06-25",
+    endDate: "2023-07-05",
+  },
+  {
+    id: 9,
+    clientName: "Flo",
+    cpf: "258.369.147-66",
+    licensePlate: "0WC-009",
+    model: "Showcar",
+    dailyValue: 280,
+    contractValue: 2800,
+    startDate: "2023-06-15",
+    endDate: "2023-06-25",
+  },
 ];
 
 function CustomTabPanel(props) {
@@ -123,7 +156,11 @@ export default function BasicTabs() {
   return (
     <Box sx={{ width: "100%", padding: "40px" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
           <Tab label="Pending Contracts" {...a11yProps(0)} />
           <Tab label="Accepted Contracts" {...a11yProps(1)} />
           <Tab label="Rejected Contracts" {...a11yProps(2)} />
