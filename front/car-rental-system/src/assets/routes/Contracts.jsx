@@ -49,10 +49,10 @@ const Contracts = () => {
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between", // Coloca h1 e a imagem nos extremos
-          alignItems: "center", // Alinha verticalmente no centro
+          justifyContent: "space-between", 
+          alignItems: "center", 
           paddingLeft: "80px",
-          paddingRight: "80px", // Adicionei padding para espaçamento à direita
+          paddingRight: "80px", 
         }}
       >
         <img
@@ -60,7 +60,7 @@ const Contracts = () => {
           alt="sally"
           style={{
             width: "20%",
-            marginLeft: "10px", // Espaçamento entre a borda esquerda e a imagem
+            marginLeft: "10px", 
           }}
         />
         <h1 style={{ color: "black", marginLeft: "80px" }}>Contracts</h1>

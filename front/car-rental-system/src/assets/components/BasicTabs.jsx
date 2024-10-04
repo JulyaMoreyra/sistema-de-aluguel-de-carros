@@ -173,8 +173,8 @@ export default function BasicTabs() {
           <Column field="cpf" header="CPF" />
           <Column field="licensePlate" header="License Plate" />
           <Column field="model" header="Model" />
-          <Column field="dailyValue" header="Daily Value" />
-          <Column field="contractValue" header="Contract Value" />
+          <Column field="dailyValue" header="Daily Value ($)" />
+          <Column field="contractValue" header="Contract Value ($)" />
           <Column field="startDate" header="Start Date" />
           <Column field="endDate" header="End Date" />
         </DataTable>
@@ -186,8 +186,8 @@ export default function BasicTabs() {
           <Column field="cpf" header="CPF" />
           <Column field="licensePlate" header="License Plate" />
           <Column field="model" header="Model" />
-          <Column field="dailyValue" header="Daily Value" />
-          <Column field="contractValue" header="Contract Value" />
+          <Column field="dailyValue" header="Daily Value ($)" />
+          <Column field="contractValue" header="Contract Value ($)" />
           <Column field="startDate" header="Start Date" />
           <Column field="endDate" header="End Date" />
         </DataTable>
@@ -200,8 +200,8 @@ export default function BasicTabs() {
           <Column field="licensePlate" header="License Plate" />
           <Column field="model" header="Model" />
           <Column field="dailyValue" header="Daily Value" />
-          <Column field="contractValue" header="Contract Value" />
-          <Column field="startDate" header="Start Date" />
+          <Column field="contractValue" header="Contract Value ($)" />
+          <Column field="startDate" header="Start Date ($)" />
           <Column field="endDate" header="End Date" />
         </DataTable>
       </CustomTabPanel>
